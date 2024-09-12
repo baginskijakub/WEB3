@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, jest } from '@jest/globals'
-import { createHand} from '../utils/test_adapter'
+import { createHand } from '../../src/utils/test_adapter'
 import { Card } from '../../src/model/deck'
 import { Hand } from '../../src/model/hand'
-import { createHandWithShuffledCards, shuffleBuilder, successiveShufflers } from '../utils/shuffling'
+import { createHandWithShuffledCards, shuffleBuilder, successiveShufflers } from '../../src/utils/shuffling'
 
 const normalShuffle = shuffleBuilder()
 .discard()
@@ -44,6 +44,7 @@ describe("Hand set up", () => {
     expect(mockShuffler).toBeCalledTimes(1)
   })
   it("deals 7 cards to each player", () => {
+
     expect(hand.playerHand(0).length).toBe(7)
     expect(hand.playerHand(1).length).toBe(7)
     expect(hand.playerHand(2).length).toBe(7)
@@ -60,13 +61,13 @@ describe("Hand set up", () => {
   })
   it("creates a discard pile with the top card", () => {
     const undealtCards = cards.slice(dealtCardsCount)  
-    expect(hand.discardPile().size).toEqual(1)
-    expect(hand.discardPile().top()).toEqual(undealtCards[0])  
+    expect(hand.discardPile.size).toEqual(1)
+    expect(hand.discardPile.top()).toEqual(undealtCards[0])
   })
   it("keeps the undealt cards in the draw pile", () => {
     const undealtCards = cards.slice(dealtCardsCount)    
     for(let i = 1; i < undealtCards.length; i++) {
-      expect(hand.drawPile().deal()).toEqual(undealtCards[i])
+      expect(hand.drawPile.deal()).toEqual(undealtCards[i])
     }
   })
   it("reshuffles if the top of the discard pile is a wild card", () => {
@@ -99,26 +100,26 @@ describe("Hand set up", () => {
 describe("Before first action in hand", () => {
   it("begins with the player to the left of the dealer unless the top card is draw, reverse or skip", () => {
     const hand: Hand = createHand({players: ['a', 'b', 'c', 'd'], dealer: 1, shuffler: normalShuffle})
-    expect(hand.playerInTurn()).toBe(2)
+    expect(hand.playerInTurn).toBe(2)
   })
   it("rolls over if the dealer is the last player", () => {
     const hand: Hand = createHand({players: ['a', 'b', 'c', 'd'], dealer: 3, shuffler: normalShuffle})
-    expect(hand.playerInTurn()).toBe(0)
+    expect(hand.playerInTurn).toBe(0)
   })
   it("begins with the player to the right of the dealer if the top card is reverse", () => {
     const shuffler = shuffleBuilder().discard().is({type: 'REVERSE'}).build()
     const hand: Hand = createHand({players: ['a', 'b', 'c', 'd'], dealer: 1, shuffler})
-    expect(hand.playerInTurn()).toBe(0)
+    expect(hand.playerInTurn).toBe(0)
   })
   it("rolls over if dealer is the first player and the top card is reverse", () => {
     const shuffler = shuffleBuilder().discard().is({type: 'REVERSE'}).build()
     const hand: Hand = createHand({players: ['a', 'b', 'c', 'd'], dealer: 0, shuffler})
-    expect(hand.playerInTurn()).toBe(3)
+    expect(hand.playerInTurn).toBe(3)
   })
   it("begins with the player two places to the left of the dealer if the top card is skip", () => {
     const shuffler = shuffleBuilder().discard().is({type: 'SKIP'}).build()
     const hand: Hand = createHand({players: ['a', 'b', 'c', 'd'], dealer: 1, shuffler})
-    expect(hand.playerInTurn()).toBe(3)
+    expect(hand.playerInTurn).toBe(3)
   })
   it("adds 2 cards to the hand of the first player if the top card is draw", () => {
     const shuffler = shuffleBuilder().discard().is({type: 'DRAW'}).build()

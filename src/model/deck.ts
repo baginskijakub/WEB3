@@ -34,6 +34,14 @@ export class Deck {
   shuffle (shuffler: Shuffler<Card>): void {
     shuffler(this.cards)
   }
+
+  top (): Card {
+    return this.cards[this.cards.length - 1]
+  }
+
+  push (card: Card): void {
+    this.cards.push(card)
+  }
 }
 
 export const createInitialDeck = (): Deck => {
