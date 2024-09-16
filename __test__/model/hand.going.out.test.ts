@@ -1,7 +1,7 @@
 import { describe, it, test, expect, beforeEach } from '@jest/globals'
-import { createHand} from '../utils/test_adapter'
+import { createHand} from '../../src/utils/test_adapter'
 import { Hand } from '../../src/model/hand'
-import { shorteningShuffler, shuffleBuilder, successiveShufflers } from '../utils/shuffling'
+import { shorteningShuffler, shuffleBuilder, successiveShufflers } from '../../src/utils/shuffling'
 
 describe('catching failure to say "UNO!"', () => {
   const builder = shuffleBuilder({players: 4, cardsPerPlayer: 2})
@@ -31,7 +31,7 @@ describe('catching failure to say "UNO!"', () => {
       expect(hand.playerHand(1).length).toEqual(3)
       expect(hand.playerHand(2).length).toEqual(3)
       expect(hand.playerHand(3).length).toEqual(3)
-      expect(hand.playerInTurn()).toEqual(0)
+      expect(hand.playerInTurn).toEqual(0)
       expect(hand.canPlay(0)).toBeTruthy()
     })
     it("fails if the player hasn't played penultimate card", () => {
@@ -48,9 +48,9 @@ describe('catching failure to say "UNO!"', () => {
     })
     it("takes the added cards from the draw pile", () => {
       hand.play(0)
-      const drawPileSize = hand.drawPile().size
+      const drawPileSize = hand.drawPile.size
       hand.catchUnoFailure({accuser: 1, accused: 0})
-      expect(hand.drawPile().size).toBe(drawPileSize - 4)
+      expect(hand.drawPile.size).toBe(drawPileSize - 4)
     })
     it("succeeds irrespective of the accuser", () => {
       hand.play(0)
@@ -119,19 +119,19 @@ describe('catching failure to say "UNO!"', () => {
       expect(hand.playerHand(1).length).toEqual(3)
       expect(hand.playerHand(2).length).toEqual(3)
       expect(hand.playerHand(3).length).toEqual(1)
-      expect(hand.playerInTurn()).toEqual(0)
+      expect(hand.playerInTurn).toEqual(0)
       expect(hand.canPlay(0)).toBeTruthy()
-      expect(hand.drawPile().size).toEqual(2)
-      expect(hand.discardPile().size).toEqual(3)
+      expect(hand.drawPile.size).toEqual(2)
+      expect(hand.discardPile.size).toEqual(3)
     })
     test("adding 4 cards to the hand shuffles the draw pile if necessary", () => {
       hand.play(0)
-      expect(hand.drawPile().size).toEqual(2)
-      expect(hand.discardPile().size).toEqual(4)
+      expect(hand.drawPile.size).toEqual(2)
+      expect(hand.discardPile.size).toEqual(4)
       hand.catchUnoFailure({accuser: 1, accused: 0})
       expect(hand.playerHand(0).length).toBe(5)
-      expect(hand.drawPile().size).toEqual(1)
-      expect(hand.discardPile().size).toEqual(1)
+      expect(hand.drawPile.size).toEqual(1)
+      expect(hand.discardPile.size).toEqual(1)
     })
   })
 
@@ -150,7 +150,7 @@ describe('catching failure to say "UNO!"', () => {
       expect(hand.playerHand(1).length).toEqual(3)
       expect(hand.playerHand(2).length).toEqual(3)
       expect(hand.playerHand(3).length).toEqual(2)
-      expect(hand.playerInTurn()).toEqual(3)
+      expect(hand.playerInTurn).toEqual(3)
       expect(hand.canPlay(0)).toBeTruthy()
       hand.play(0)
       expect(hand.canPlay(0)).toBeTruthy()
@@ -226,7 +226,7 @@ describe("ending the hand", () => {
       expect(hand.winner()).toEqual(0);
     })
     it("makes the player in turn undefined", () => {
-      expect(hand.playerInTurn()).toBeUndefined()
+      expect(hand.getPlayerInTurn()).toBeUndefined()
     })
     it("ceases play", () => {
       expect(hand.canPlay(0)).toBeFalsy()

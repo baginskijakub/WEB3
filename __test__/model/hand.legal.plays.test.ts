@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from '@jest/globals'
-import { createHand} from '../utils/test_adapter'
+import { createHand} from '../../src/utils/test_adapter'
 import { Hand } from '../../src/model/hand'
-import { shuffleBuilder } from '../utils/shuffling'
+import { shuffleBuilder } from '../../src/utils/shuffling'
 
 describe("Legal plays", () => {
   describe("Legal plays on a numbered card", () => {
@@ -69,6 +69,7 @@ describe("Legal plays", () => {
     it("is legal to play a card in the same color as the top card", () => {
       const shuffler = builder.hand(2).is({type: 'NUMBERED', color: 'BLUE'}).build()
       const hand: Hand = createHand({players: ['a', 'b', 'c', 'd'], dealer: 3, shuffler})
+      console.log(hand.playerInTurn)
       expect(hand.canPlay(0)).toBeTruthy()
     })
     it("is not legal to play a non-reverse card with different color than the top card", () => {
@@ -163,6 +164,7 @@ describe("Legal plays", () => {
     it("is legal to play a card in the same color as the top card", () => {
       const shuffler = builder.hand(1).is({type: 'NUMBERED', color: 'BLUE'}).build()
       const hand: Hand = createHand({players: ['a', 'b', 'c', 'd'], dealer: 3, shuffler})
+      console.log(hand.playerInTurn)
       expect(hand.canPlay(0)).toBeTruthy()
     })
     it("is not legal to play a non-skip card with different color than the top card", () => {
@@ -207,9 +209,8 @@ describe("Legal plays", () => {
       const shuffler = shuffleBuilder()
         .discard()
           .is({type: 'NUMBERED', color: 'GREEN'})
-        .hand(0
-
-        ).is({type: 'WILD DRAW'}, {color: 'GREEN'})
+        .hand(0)
+        .is({type: 'WILD DRAW'}, {color: 'GREEN'})
         .build()
       const hand = createHand({players: ['a', 'b', 'c', 'd'], dealer: 3, shuffler})
       expect(hand.canPlay(0)).toBeFalsy()

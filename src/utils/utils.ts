@@ -1,4 +1,5 @@
-// A function that returns a (possibly) random number from 0 to bound - 1
+import { type Card } from '../model/deck'
+
 export type Randomizer = (bound: number) => number
 
 // Uniformly selected pseudo-random number
@@ -15,4 +16,18 @@ export function standardShuffler<T> (cards: T[]): void {
     cards[j] = cards[i]
     cards[i] = temp
   }
+}
+
+export const mapCardsToScore = (cards: Card[]): number => {
+  return cards.reduce((acc, card) => {
+    if (card.type === 'NUMBERED') {
+      return acc + card.number
+    }
+
+    if (card.type === 'WILD' || card.type === 'WILD DRAW') {
+      return acc + 50
+    }
+
+    return acc + 20
+  }, 0)
 }

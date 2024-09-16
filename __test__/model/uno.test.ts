@@ -1,7 +1,7 @@
 import { describe, it, test, expect } from '@jest/globals'
-import { createGame } from '../utils/test_adapter'
-import { shuffleBuilder, successiveShufflers } from '../utils/shuffling'
-import { Game } from '../../src/model/uno'
+import { createGame } from '../../src/utils/test_adapter'
+import { shuffleBuilder, successiveShufflers } from '../../src/utils/shuffling'
+import { Game } from '../../src'
 
 describe("Game set up", () => {
   const game: Game = createGame({players: ['a', 'b', 'c', 'd'], targetScore: 500})
