@@ -8,6 +8,7 @@ export const useGameStore = defineStore('game', () => {
 
   const initGame = (props: Partial<Props>) => {
     gameState.value = createGame(props)
+    nextTurn()
   }
 
   const game = (): Game => {
@@ -24,10 +25,15 @@ export const useGameStore = defineStore('game', () => {
     nextTurn()
   }
 
+  const drawCard = () => {
+    game().currentHand()?.draw()
+    nextTurn()
+  }
+
   const nextTurn = () => {
     const playerInTurn = game().currentHand()?.playerInTurn
 
-    console.log(playerInTurn)
+    playerInTurn && console.log(game().players[playerInTurn])
 
     if (playerInTurn) {
       botTurn()
@@ -65,6 +71,7 @@ export const useGameStore = defineStore('game', () => {
     game,
     initGame,
     playCard,
+    drawCard,
   }
 })
 

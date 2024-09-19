@@ -25,16 +25,7 @@ export const usePlayerStore = defineStore('player', () => {
   })
 
   const drawCard = () => {
-    const playerInTurn = gameStore.game().currentHand()?.playerInTurn
-
-    const currentHand = gameStore.game().currentHand()
-
-    // Assuming 'You' is the player's name
-    if (!currentHand || playerInTurn !== 0) {
-      return
-    }
-
-    currentHand.draw()
+    gameStore.drawCard()
   }
 
   const playCard = (cardIndex: number) => {
@@ -50,6 +41,8 @@ export const usePlayerStore = defineStore('player', () => {
     const card = playerCards.value[cardIndex]
 
     if (card.type === 'WILD' || card.type === 'WILD DRAW') {
+      if(!currentHand.canPlay(cardIndex)) return
+
       displayRequestColorModal.value = true
       cardIndexToPlay.value = cardIndex
       return

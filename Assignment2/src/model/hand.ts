@@ -247,8 +247,6 @@ export class Hand {
 
     const card = this.drawPile.deal()
 
-    console.log(card)
-
     if (!card) {
       throw new Error('No cards in deck')
     }
