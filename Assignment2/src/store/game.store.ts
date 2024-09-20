@@ -33,8 +33,6 @@ export const useGameStore = defineStore('game', () => {
   const nextTurn = () => {
     const playerInTurn = game().currentHand()?.playerInTurn
 
-    playerInTurn && console.log(game().players[playerInTurn])
-
     if (playerInTurn) {
       botTurn()
     }
