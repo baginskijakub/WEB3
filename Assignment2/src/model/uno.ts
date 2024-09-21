@@ -15,8 +15,24 @@ export interface Props {
 export class Game {
   hands: Hand[] = []
   playerScores: number[] = []
+  players: string[] = []
+  targetScore: number = 50
+  cardsPerPlayer: number = 2
+  shuffler: Shuffler<Card> = standardShuffler
+  randomizer: () => number = () => 3
+  playerCount: number = 2
+  handEndCallbacks: ((e: { winner: number }) => void)[] = []
 
-  constructor (public playerCount: number, public targetScore: number, public players: string[], public cardsPerPlayer: number, public shuffler: Shuffler<Card>, public randomizer: () => number) {
+  initGame ( props: Partial<Props>): void {
+    const {
+      playerCount = this.playerCount,
+      targetScore= this.targetScore,
+      players= ['A', 'B'],
+      cardsPerPlayer = this.cardsPerPlayer,
+      shuffler = this.shuffler,
+      randomizer = this.randomizer
+    } = props
+
     if (playerCount < 2) {
       throw new Error('At least 2 players are required')
     }
@@ -24,6 +40,13 @@ export class Game {
     if (targetScore <= 0) {
       throw new Error('Target score must be more than 0')
     }
+
+    this.playerCount = playerCount
+    this.targetScore = targetScore
+    this.players = players
+    this.cardsPerPlayer = cardsPerPlayer
+    this.shuffler = shuffler
+    this.randomizer = randomizer
 
     this.playerScores = Array(playerCount).fill(0)
 
@@ -54,6 +77,11 @@ export class Game {
     return this.hands[this.hands.length - 1]
   }
 
+  onHandEnd (cb: (e: { winner: number }) => void): void {
+    this.handEndCallbacks.push(cb)
+    this.hands.forEach(hand => hand.onEnd(cb))
+  }
+
   createHand (): void {
     if (this.winner() !== undefined) return
 
@@ -76,18 +104,22 @@ export class Game {
       this.createHand()
     })
 
+    this.handEndCallbacks.forEach(cb => hand.onEnd(cb))
+
     this.hands.push(hand)
   }
 }
 
 export const createGame = (props: Partial<Props>): Game => {
   const {
-    targetScore = 500,
+    targetScore = 50,
     players = ['A', 'B'],
-    cardsPerPlayer = 7,
+    cardsPerPlayer = 2,
     shuffler = standardShuffler,
     randomizer = () => 3
   } = props
 
-  return new Game(players.length, targetScore, players, cardsPerPlayer, shuffler, randomizer)
+  const game = new Game()
+  game.initGame({playerCount: players.length, targetScore, players, cardsPerPlayer, shuffler, randomizer})
+  return game
 }

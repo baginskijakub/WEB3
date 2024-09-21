@@ -1,23 +1,22 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
 import { createGame, type Game, type Props } from '~/src/model'
 import type { Color } from '../model/deck'
 
 export const useGameStore = defineStore('game', () => {
-  const gameState = ref<Game | null>(null)
+  const gameState = reactive<Game>(createGame({}))
 
   const initGame = (props: Partial<Props>) => {
-    gameState.value = createGame(props)
+    gameState.initGame(props)
     nextTurn()
   }
 
   const game = (): Game => {
-    if (!gameState.value) {
+    if (!gameState) {
       navigateTo('new-game')
       throw new Error('Game not initialized')
     }
 
-    return gameState.value as Game
+    return <Game>gameState
   }
 
   const playCard = (cardIndex: number, requestColor?: Color) => {
@@ -28,6 +27,14 @@ export const useGameStore = defineStore('game', () => {
   const drawCard = () => {
     game().currentHand()?.draw()
     nextTurn()
+  }
+
+  const sayUno = (playerIndex: number) => {
+    game().currentHand()?.sayUno(playerIndex)
+  }
+
+  const accuseOfNotSayingUno = (accuser: number, accused: number) => {
+    game().currentHand()?.catchUnoFailure({accuser, accused})
   }
 
   const nextTurn = () => {
@@ -51,10 +58,20 @@ export const useGameStore = defineStore('game', () => {
           if (game().currentHand()?.canPlay(i)) {
             if (['WILD', 'WILD DRAW'].includes(cards[i].type)) {
               playCard(i, 'RED')
+
+              if(cards.length === 1) {
+                Math.random() > 0.5 && sayUno(playerInTurn)
+              }
+
               return nextTurn()
             }
 
             game().currentHand()?.play(i)
+
+            if(cards.length === 1) {
+              Math.random() > 0.5 && sayUno(playerInTurn)
+            }
+
             return nextTurn()
           }
         }
@@ -70,10 +87,14 @@ export const useGameStore = defineStore('game', () => {
     initGame,
     playCard,
     drawCard,
+    sayUno,
+    accuseOfNotSayingUno,
+    nextTurn,
+    botTurn
   }
 })
 
 const imitateThinking = (cb: () => void) => {
-  const timeout = Math.random() * 1000
+  const timeout = Math.random() * 1000 + 500
   return setTimeout(() => cb(), timeout)
 }

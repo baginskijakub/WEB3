@@ -202,9 +202,6 @@ export class Hand {
 
   play(cardIndex: number, requestColor?: Color): Card {
     if (!this.canPlay(cardIndex)) {
-      const card = this.players[this.playerInTurn].hand[cardIndex]
-      const topCard = this.discardPile.top()
-      console.log('Cannot play card', card, topCard)
       throw new Error('Cannot play card')
     }
 
@@ -275,6 +272,7 @@ export class Hand {
     if (accused < 0 || accused >= this.playerCount) {
       throw new Error('Player index out of bounds')
     }
+
 
     if (this.lastPlayerToTakeAction !== accused) {
       return false

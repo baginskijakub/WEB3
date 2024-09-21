@@ -10,15 +10,22 @@ const props = defineProps<{
 const store = useGameStore()
 
 const player = computed(() => {
-  const players = store
-    .game()
-    .currentHand()
-    ?.players.filter((player) => player.name !== 'You')
+  const players = store.game().currentHand()?.players
 
-  const name = players && players[props.playerIndex].name
-  const numberOfCards = players && players[props.playerIndex].hand.length
+  const player = players ? players[props.playerIndex] : null
+
+  if(!player) {
+    return { name: '', numberOfCards: 0 }
+  }
+
+  const name = players ? players[props.playerIndex].name : ''
+  const numberOfCards = players ? players[props.playerIndex].hand.length : 0
 
   return { name, numberOfCards }
+})
+
+const hasSaidUno = computed(() => {
+  return useGameStore().game().currentHand()?.players[props.playerIndex].saidUno
 })
 </script>
 
@@ -35,11 +42,16 @@ const player = computed(() => {
       <img src="/cards-icon.svg" alt="cards icon" class="w-5 h-5" />
       <p class="text-sm">{{ player.numberOfCards }}</p>
     </div>
+
     <button
       class="bg-red-700 m-3 w-9 h-9 flex items-center justify-center rounded hover:opacity-70 ease-in-out duration-200"
+      @click='store.accuseOfNotSayingUno(0, props.playerIndex)'
     >
       <TriangleAlert :size="20" />
     </button>
+    <div v-if='hasSaidUno' class='w-12 h-9 bg-yellow-600 m-3 rounded flex justify-center items-center text-sm'>
+      UNO!
+    </div>
   </div>
 
   <div
@@ -56,9 +68,13 @@ const player = computed(() => {
     </div>
     <button
       class="bg-red-700 m-3 w-9 h-9 flex items-center justify-center rounded hover:opacity-70 ease-in-out duration-200"
+      @click='store.accuseOfNotSayingUno(0, props.playerIndex)'
     >
       <TriangleAlert :size="20" />
     </button>
+    <div v-if='hasSaidUno' class='w-12 h-9 bg-yellow-600 m-3 rounded flex justify-center items-center text-sm'>
+      UNO!
+    </div>
   </div>
 
   <div
@@ -75,9 +91,13 @@ const player = computed(() => {
     </div>
     <button
       class="bg-red-700 m-3 w-9 h-9 flex items-center justify-center rounded hover:opacity-70 ease-in-out duration-200"
+      @click='store.accuseOfNotSayingUno(0, props.playerIndex)'
     >
       <TriangleAlert :size="20" />
     </button>
+    <div v-if='hasSaidUno' class='w-12 h-9 bg-yellow-600 m-3 rounded flex justify-center items-center text-sm'>
+      UNO!
+    </div>
   </div>
 </template>
 

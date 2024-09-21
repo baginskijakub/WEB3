@@ -61,10 +61,15 @@ export const usePlayerStore = defineStore('player', () => {
       return
     }
 
-    currentHand.play(cardIndexToPlay.value!, color)
+    const cardIndex = cardIndexToPlay.value
+
     displayRequestColorModal.value = false
     cardIndexToPlay.value = null
+
+    gameStore.playCard(cardIndex, color)
   }
+
+  const sayUno = () => gameStore.sayUno(0)
 
   return {
     playerCards,
@@ -73,5 +78,6 @@ export const usePlayerStore = defineStore('player', () => {
     isPlayerInTurn,
     playWildCard,
     displayRequestColorModal,
+    sayUno
   }
 })

@@ -11,7 +11,7 @@ const players = computed(() => game().players.filter((player) => player !== 'You
 <template>
   <bot-interface
     v-for="(_, index) in players"
-    :key="`${index}-bots`"
+    :key="`${index}-bot`"
     :player-index="index"
     :position="POSITIONS_ARRAY[players.length - 1][index]"
   />
