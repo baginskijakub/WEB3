@@ -4,6 +4,13 @@ import Bots from '~/src/components/bot-interface/bots.vue'
 import Piles from '~/src/components/piles/piles.vue'
 import RequestedColorIndicator from '~/src/components/requested-color/requested-color-indicator.vue'
 import PlayerInterface from '~/src/components/player-interface/player-interface.vue'
+import { useUserStore } from '~/src/store/user.store'
+
+const userStore = useUserStore()
+
+if(!userStore.user) {
+  navigateTo('/login')
+}
 </script>
 
 <template>
