@@ -10,7 +10,7 @@ const password = ref('');
 
 const handleSubmit = () => {
   userStore.register(email.value, name.value, password.value).then(() => {
-    navigateTo('/new-game');
+    navigateTo('/lobbies');
   });
 };
 </script>

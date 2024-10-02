@@ -31,7 +31,7 @@ const players = computed(() => {
       <p>{{ p.name }}: {{ p.score }}</p>
     </div>
 
-    <a href='/new-game' class='bg-blue-600 px-3 py-2 text-white rounded'>New game</a>
+    <a href='/Assignment3/client/pages/lobbies' class='bg-blue-600 px-3 py-2 text-white rounded'>New game</a>
   </div>
 </template>
 

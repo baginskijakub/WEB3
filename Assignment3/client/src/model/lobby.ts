@@ -1,9 +1,4 @@
-export type User = {
-  id: number
-  email: string
-  password: string
-  name: string
-}
+import type { User } from '~/src/model/user'
 
 export type Lobby = {
   id: number

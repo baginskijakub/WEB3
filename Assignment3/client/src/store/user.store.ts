@@ -3,7 +3,7 @@ import { UserService } from '~/src/services/user.services'
 
 export const useUserStore = defineStore('user', () => {
   const user = computed<User | null>(() => {
-    const userCookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('user='))
+    const userCookie = document && document.cookie.split(';').find(cookie => cookie.trim().startsWith('user='))
     if (userCookie) {
       return JSON.parse(userCookie.split('=')[1])
     }
