@@ -4,7 +4,6 @@ import { DataAccess } from '../../data-access'
 const connectedClients: WebSocket[] = [];
 
 export const syncLobbies = (ws: WebSocket) => {
-  console.log('lolo')
   if (!connectedClients.includes(ws)) {
     connectedClients.push(ws);
   }
@@ -16,6 +15,33 @@ export const syncLobbies = (ws: WebSocket) => {
       connectedClients.splice(index, 1);
     }
   });
+
+  ws.on('message', async (message) => {
+    const { type, payload } = JSON.parse(message.toString());
+
+    if (type === 'LOBBY_START') {
+      const databaseResponse = await DataAccess.LobbyDAO.deleteLobby(payload.lobbyId);
+
+      if (!databaseResponse.success) {
+        return;
+      }
+
+      const message = JSON.stringify({
+        type: 'LOBBY_STARTED',
+        payload: {
+          lobbyId: databaseResponse.data.id
+        },
+      });
+
+      connectedClients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(message);
+        }
+      });
+
+      await broadcastLobbiesChange();
+    }
+  })
 };
 
 export const broadcastLobbiesChange = async () => {
@@ -25,19 +51,18 @@ export const broadcastLobbiesChange = async () => {
     return;
   }
 
-  console.log('broadcasting lobby change');
-
   const message = JSON.stringify({
     type: 'LOBBY_CHANGE',
     payload: databaseResponse.data,
   });
 
-  console.log('connected clients:', connectedClients.length);
-
   connectedClients.forEach((client) => {
     if (client.readyState === WebSocket.OPEN) {
-      console.log('sending message to client');
       client.send(message);
     }
   });
 };
+
+const handleMessages = (ws: WebSocket) => {
+
+}

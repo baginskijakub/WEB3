@@ -15,7 +15,7 @@ const options = {
 app.use(cors(options));
 app.use(express.json());
 app.use(router)
-app.ws('/', (ws, req) => {
+app.ws('/lobby', (ws, req) => {
  syncLobbies(ws);
 })
 

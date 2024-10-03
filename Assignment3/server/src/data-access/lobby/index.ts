@@ -160,8 +160,47 @@ export const getAllLobbies = async (): Promise<DatabaseResponse<Lobby[]>> => {
   }
 }
 
+export const deleteLobby = async (lobbyId: number): Promise<DatabaseResponse<Lobby>> => {
+    const prisma = new PrismaClient()
+
+    try {
+        const lobby = await prisma.lobby.findUnique({
+          where: { id: lobbyId },
+          include: { players: true },
+        });
+
+        if (!lobby) {
+        return {
+            success: false,
+            status: ErrorStatusCode.BadRequest,
+            error: `Lobby with id ${lobbyId} not found`,
+        };
+        }
+
+        await prisma.lobby.delete({
+          where: { id: lobbyId },
+        });
+
+        return {
+          success: true,
+          status: SuccessStatusCode.OK,
+          data: lobby,
+          error: undefined,
+        }
+    } catch (error) {
+        return {
+          success: false,
+          status: ErrorStatusCode.InternalServerError,
+          error: `Something went wrong: ${error.message}`,
+        };
+    } finally {
+        await prisma.$disconnect(); // Close the database connection
+    }
+}
+
 export const LobbyDAO = {
   createLobby,
   joinLobby,
-  getAllLobbies
+  getAllLobbies,
+  deleteLobby,
 }

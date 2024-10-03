@@ -10,10 +10,6 @@ const lobbyStore = useLobbyStore()
 if (!userStore.user) {
   navigateTo('/login')
 }
-
-const onStartGame = async (lobbyId: string) => {
-  // await LobbyService.startGame(lobbyId)
-}
 </script>
 
 <template>
@@ -22,7 +18,7 @@ const onStartGame = async (lobbyId: string) => {
       v-for="lobby in lobbyStore.lobbies"
       :lobby="lobby"
       @join-lobby="lobbyStore.joinLobby(lobby.id)"
-      @start-game="onStartGame()"
+      @start-game="lobbyStore.startLobby(lobby.id)"
       :key="lobby.id"
     />
 

@@ -11,13 +11,17 @@ export const useLobbyStore = defineStore('lobby', () => {
 
   // Make sure WebSocket is initialized only on the client side
   if (process.client && !ws) {
-    ws = new WebSocket('ws://localhost:5001/')
+    ws = new WebSocket('ws://localhost:5001/lobby')
 
     ws.onmessage = (event) => {
       const { type, payload } = JSON.parse(event.data)
 
       if (type === 'LOBBY_CHANGE') {
         data.value = payload
+      }
+
+      if (type === 'LOBBY_STARTED') {
+        navigateTo(`/game/${payload.lobbyId}`)
       }
     }
   }
@@ -34,9 +38,16 @@ export const useLobbyStore = defineStore('lobby', () => {
     }
   }
 
+  const startLobby = async (lobbyId: string) => {
+    if (ws) {
+      ws.send(JSON.stringify({ type: 'LOBBY_START', payload: { lobbyId } }))
+    }
+  }
+
   return {
     lobbies: data,
     joinLobby,
     createLobby,
+    startLobby,
   }
 })
