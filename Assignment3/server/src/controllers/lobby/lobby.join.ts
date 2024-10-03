@@ -1,5 +1,6 @@
 import { DataAccess } from '../../data-access'
 import { Request, Response } from 'express'
+import { broadcastLobbiesChange } from './lobby.sync'
 
 export const joinLobbyEndpoint = async (req: Request, res: Response) => {
   const { userId, lobbyId } = req.body
@@ -11,6 +12,7 @@ export const joinLobbyEndpoint = async (req: Request, res: Response) => {
     });
 
     if (databaseResponse.success) {
+      broadcastLobbiesChange()
       res.status(databaseResponse.status).send(databaseResponse.data);
       return;
     }

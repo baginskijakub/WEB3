@@ -14,7 +14,7 @@ const player = computed(() => {
 
   const player = players ? players[props.playerIndex] : null
 
-  if(!player) {
+  if (!player) {
     return { name: '', numberOfCards: 0 }
   }
 
@@ -45,11 +45,11 @@ const hasSaidUno = computed(() => {
 
     <button
       class="bg-red-700 m-3 w-9 h-9 flex items-center justify-center rounded hover:opacity-70 ease-in-out duration-200"
-      @click='store.accuseOfNotSayingUno(0, props.playerIndex)'
+      @click="store.accuseOfNotSayingUno(0, props.playerIndex)"
     >
       <TriangleAlert :size="20" />
     </button>
-    <div v-if='hasSaidUno' class='w-12 h-9 bg-yellow-600 m-3 rounded flex justify-center items-center text-sm'>
+    <div v-if="hasSaidUno" class="w-12 h-9 bg-yellow-600 m-3 rounded flex justify-center items-center text-sm">
       UNO!
     </div>
   </div>
@@ -68,11 +68,11 @@ const hasSaidUno = computed(() => {
     </div>
     <button
       class="bg-red-700 m-3 w-9 h-9 flex items-center justify-center rounded hover:opacity-70 ease-in-out duration-200"
-      @click='store.accuseOfNotSayingUno(0, props.playerIndex)'
+      @click="store.accuseOfNotSayingUno(0, props.playerIndex)"
     >
       <TriangleAlert :size="20" />
     </button>
-    <div v-if='hasSaidUno' class='w-12 h-9 bg-yellow-600 m-3 rounded flex justify-center items-center text-sm'>
+    <div v-if="hasSaidUno" class="w-12 h-9 bg-yellow-600 m-3 rounded flex justify-center items-center text-sm">
       UNO!
     </div>
   </div>
@@ -91,11 +91,11 @@ const hasSaidUno = computed(() => {
     </div>
     <button
       class="bg-red-700 m-3 w-9 h-9 flex items-center justify-center rounded hover:opacity-70 ease-in-out duration-200"
-      @click='store.accuseOfNotSayingUno(0, props.playerIndex)'
+      @click="store.accuseOfNotSayingUno(0, props.playerIndex)"
     >
       <TriangleAlert :size="20" />
     </button>
-    <div v-if='hasSaidUno' class='w-12 h-9 bg-yellow-600 m-3 rounded flex justify-center items-center text-sm'>
+    <div v-if="hasSaidUno" class="w-12 h-9 bg-yellow-600 m-3 rounded flex justify-center items-center text-sm">
       UNO!
     </div>
   </div>

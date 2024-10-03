@@ -18,4 +18,10 @@ export default defineNuxtConfig({
       stylistic: true,
     },
   },
+
+  nitro: {
+    experimental: {
+      websocket: true,
+    },
+  },
 })

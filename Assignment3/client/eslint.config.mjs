@@ -1,22 +1,5 @@
-import withNuxt from './.nuxt/eslint.config.mjs'
+import { createConfigForNuxt } from '@nuxt/eslint-config/flat'
 
-export default withNuxt({
-        "env": {
-            "es2021": true
-        },
-        "extends": "standard-with-typescript",
-        "parserOptions": {
-            "ecmaVersion": "latest",
-            "sourceType": "module"
-        },
-        "ignorePatterns": [
-            "**/*.test.ts",
-            "**/*.test.tsx",
-            "dist/*"
-        ],
-        "rules": {
-            "@typescript-eslint/strict-boolean-expressions": "off",
-            "@typescript-eslint/explicit-function-return-type": "off"
-        }
-    }
-)
+export default createConfigForNuxt({
+
+})
