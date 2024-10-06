@@ -1,121 +1,75 @@
 import { defineStore } from 'pinia'
-import { createGame, type Game, type Props } from '~/src/model'
-import type { Color } from '../model/deck'
+
+import { useUserStore } from '~/src/store/user.store'
+import type { Color, TGame } from '~/src/types/types'
+
+let ws: WebSocket | null = null
 
 export const useGameStore = defineStore('game', () => {
-  const gameState = reactive<Game>(createGame({}))
+  const userStore = useUserStore()
+  const gameState = ref<TGame | null>(null)
+  const gameId = ref<number | null>(null)
+  const displayHandCompleteModal = ref(false)
+  const displayGameOverModal = ref(false)
 
-  const initGame = (props: Partial<Props>) => {
-    gameState.initGame(props)
-    nextTurn()
-  }
+  const initWs = (id: number) => {
+    gameId.value = id
 
-  const game = (): Game => {
-    if (!gameState) {
-      navigateTo('new-game')
-      throw new Error('Game not initialized')
+    if (import.meta.client && !ws) {
+      ws = new WebSocket(`ws://localhost:5001/game/${id}`)
+
+      ws.onmessage = (event) => {
+        const { type, payload } = JSON.parse(event.data)
+
+        if (type === 'GAME_CHANGE') {
+          gameState.value = payload
+        }
+
+        if (type === 'HAND_COMPLETE') {
+          displayHandCompleteModal.value = true
+        }
+
+        if (type === 'GAME_OVER') {
+          displayGameOverModal.value = true
+        }
+      }
     }
-
-    return <Game>gameState
   }
 
   const playCard = (cardIndex: number, requestColor?: Color) => {
-    game().currentHand()?.play(cardIndex, requestColor)
-    nextTurn()
+    ws?.send(JSON.stringify({ type: 'PLAY_CARD', payload: { cardIndex, requestColor } }))
   }
 
   const drawCard = () => {
-    game().currentHand()?.draw()
-    nextTurn()
+    ws?.send(JSON.stringify({ type: 'DRAW_CARD' }))
   }
 
-  const sayUno = (playerIndex: number) => {
-    game().currentHand()?.sayUno(playerIndex)
+  const sayUno = () => {
+    const playerIndex = gameState.value?.players.findIndex((p) => p === userStore.user?.name)
+
+    ws?.send(JSON.stringify({ type: 'SAY_UNO', payload: { playerIndex } }))
   }
 
-  const accuseOfNotSayingUno = (accuser: number, accused: number) => {
-    game().currentHand()?.catchUnoFailure({accuser, accused})
+  const accuseOfNotSayingUno = (accused: number) => {
+    const accuser = gameState.value?.players.findIndex((p) => p === userStore.user?.name)
+
+    ws?.send(JSON.stringify({ type: 'ACCUSE_OF_NOT_SAYING_UNO', payload: { accuser, accused } }))
   }
 
-  const nextTurn = () => {
-    const playerInTurn = game().currentHand()?.playerInTurn
-
-    if (playerInTurn) {
-      botTurn()
-    }
-  }
-
-  const botTurn = () => {
-    imitateThinking(() => {
-      const playerInTurn = game().currentHand()?.playerInTurn
-
-      if (playerInTurn) {
-        randomAccuse()
-
-        const cards = game().currentHand()?.players[playerInTurn].hand
-
-        if (!cards) return
-
-        for (let i = 0; i < cards.length; i++) {
-          if (game().currentHand()?.canPlay(i)) {
-            if (['WILD', 'WILD DRAW'].includes(cards[i].type)) {
-              playCard(i, randomColor())
-
-              if(cards.length === 1) {
-                Math.random() > 0.5 && sayUno(playerInTurn)
-              }
-
-              return nextTurn()
-            }
-
-            game().currentHand()?.play(i)
-
-            if(cards.length === 1) {
-              Math.random() > 0.5 && sayUno(playerInTurn)
-            }
-
-            return nextTurn()
-          }
-        }
-
-        game().currentHand()?.draw()
-        nextTurn()
-      }
-    })
-  }
-
-  const randomAccuse = () => {
-    const players = game().players
-
-    for (let i = 0; i < players.length; i++) {
-      const accuser = game().currentHand()?.playerInTurn
-      const accused = i
-
-      if (game().currentHand()?.players[accused].hand.length === 1) {
-        Math.random() > 0.7 && accuser && accuseOfNotSayingUno(accuser, accused)
-      }
-
-    }
+  const closeModal = () => {
+    displayHandCompleteModal.value = false
+    displayGameOverModal.value = false
   }
 
   return {
-    game,
-    initGame,
+    game: gameState,
+    initWs,
     playCard,
     drawCard,
     sayUno,
     accuseOfNotSayingUno,
-    nextTurn,
-    botTurn
+    displayHandCompleteModal,
+    displayGameOverModal,
+    closeModal,
   }
 })
-
-const imitateThinking = (cb: () => void) => {
-  const timeout = Math.random() * 1000 + 500
-  return setTimeout(() => cb(), timeout)
-}
-
-const randomColor = () => {
-  const colors: Color[] = ['RED', 'BLUE', 'GREEN', 'YELLOW']
-  return colors[Math.floor(Math.random() * colors.length)]
-}

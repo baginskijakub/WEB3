@@ -1,4 +1,4 @@
-import type {Card} from "~/src/model/deck";
+import {Card} from "../deck";
 
 export type Randomizer = (bound: number) => number
 

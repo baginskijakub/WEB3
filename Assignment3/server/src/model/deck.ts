@@ -1,4 +1,5 @@
 import { type Shuffler } from './utils'
+import {TDeck} from "../types";
 
 export type Type = 'NUMBERED' | 'SKIP' | 'REVERSE' | 'DRAW' | 'WILD' | 'WILD DRAW'
 export type Color = 'RED' | 'YELLOW' | 'GREEN' | 'BLUE'
@@ -42,6 +43,16 @@ export class Deck {
   push (card: Card): void {
     this.cards.push(card)
   }
+
+  toState (): TDeck {
+    return {
+      cards: this.cards
+    }
+  }
+
+    fromState (state: any) {
+        this.cards = state.cards
+    }
 }
 
 export const createInitialDeck = (): Deck => {

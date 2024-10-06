@@ -5,7 +5,7 @@ import { COLOR_MAP } from '~/src/components/cards/uno-card/utils'
 const store = useGameStore()
 
 const requestedColor = computed(() => {
-  const hand = store.game().currentHand()
+  const hand = store.game?.currentHand
   return hand?.requestedColor
 })
 </script>

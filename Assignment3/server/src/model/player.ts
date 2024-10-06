@@ -30,4 +30,18 @@ export class Player {
   handScore (): number {
     return mapCardsToScore(this.hand)
   }
+
+  toState () {
+    return {
+      name: this.name,
+      hand: this.hand,
+      saidUno: this.saidUno
+    }
+  }
+
+  fromState (state: any) {
+    this.name = state.name
+    this.hand = state.hand
+    this.saidUno = state
+  }
 }

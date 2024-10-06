@@ -1,7 +1,9 @@
 import * as deck from './deck'
 import { type Card, type Color } from './deck'
 import { Player } from './player'
-import type { Shuffler } from '~/src/model/utils'
+import {Shuffler} from "./utils";
+import {THand} from "../types";
+
 
 export class Hand {
   public playerCount: number
@@ -326,6 +328,40 @@ export class Hand {
     }
 
     return this.players.reduce((acc, player) => acc + player.handScore(), 0)
+  }
+
+  toState(): THand {
+    return {
+      players: this.players.map((player) => player.toState()),
+      drawPile: this.drawPile.toState(),
+      discardPile: this.discardPile.toState(),
+      direction: this.direction,
+      playerInTurn: this.playerInTurn,
+      lastPlayerToTakeAction: this.lastPlayerToTakeAction,
+      requestedColor: this.requestedColor,
+      topCardApplied: this.topCardApplied,
+      playerCount: this.playerCount,
+    }
+  }
+
+  fromState(state: any) {
+    this.players = state.players.map((playerState: any) => {
+      const player = new Player('')
+      player.fromState(playerState)
+      return player
+    })
+
+    this.drawPile = new deck.Deck([])
+    this.drawPile.fromState(state.drawPile)
+
+    this.discardPile = new deck.Deck([])
+    this.discardPile.fromState(state.discardPile)
+
+    this.direction = state.direction
+    this.playerInTurn = state.playerInTurn
+    this.lastPlayerToTakeAction = state.lastPlayerToTakeAction
+    this.requestedColor = state.requestedColor
+    this.topCardApplied = state.topCardApplied
   }
 }
 

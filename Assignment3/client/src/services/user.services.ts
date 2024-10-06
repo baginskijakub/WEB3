@@ -1,5 +1,5 @@
-import type { User } from '~/src/model/user'
 import { API_URL } from '~/src/services/utils'
+import type { User } from '~/src/types/types'
 
 const login = async (email: string, password: string): Promise<User> => {
   const response = await fetch(`${API_URL}/user/login`, {

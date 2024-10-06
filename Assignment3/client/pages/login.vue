@@ -1,17 +1,16 @@
-<script setup lang='ts'>
-import { ref } from 'vue';
-import {useUserStore} from '~/src/store/user.store';
+<script setup lang="ts">
+import { useUserStore } from '~/src/store/user.store'
 
-const userStore = useUserStore();
+const userStore = useUserStore()
 
-const email = ref('');
-const password = ref('');
+const email = ref('')
+const password = ref('')
 
 const handleSubmit = () => {
   userStore.login(email.value, password.value).then(() => {
-    navigateTo('/lobbies');
-  });
-};
+    navigateTo('/lobbies')
+  })
+}
 </script>
 
 <template>
@@ -22,9 +21,9 @@ const handleSubmit = () => {
         <div class="mb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
           <input
+            id="email"
             v-model="email"
             type="email"
-            id="email"
             class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
             required
           />
@@ -32,9 +31,9 @@ const handleSubmit = () => {
         <div class="mb-6">
           <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
           <input
+            id="password"
             v-model="password"
             type="password"
-            id="password"
             class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
             required
           />
@@ -46,7 +45,9 @@ const handleSubmit = () => {
           Login
         </button>
       </form>
-      <a href="/register" class="block text-center mt-4 text-sm text-indigo-600 hover:text-indigo-500">Don't have an account? Register</a>
+      <a href="/register" class="block text-center mt-4 text-sm text-indigo-600 hover:text-indigo-500"
+        >Don't have an account? Register</a
+      >
     </div>
   </div>
 </template>

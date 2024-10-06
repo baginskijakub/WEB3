@@ -1,9 +1,9 @@
-import type { User } from '~/src/model'
 import { UserService } from '~/src/services/user.services'
+import type { User } from '~/src/types/types'
 
 export const useUserStore = defineStore('user', () => {
   const user = computed<User | null>(() => {
-    const userCookie = document && document.cookie.split(';').find(cookie => cookie.trim().startsWith('user='))
+    const userCookie = document && document.cookie.split(';').find((cookie) => cookie.trim().startsWith('user='))
     if (userCookie) {
       return JSON.parse(userCookie.split('=')[1])
     }
@@ -37,6 +37,6 @@ export const useUserStore = defineStore('user', () => {
     setUser,
     login,
     register,
-    logout
+    logout,
   }
 })

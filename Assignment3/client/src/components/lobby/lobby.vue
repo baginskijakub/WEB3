@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Lobby } from '~/src/model/lobby'
+import type { Lobby } from '~/src/types/types'
 import { useUserStore } from '~/src/store/user.store'
 
 const userStore = useUserStore()
@@ -39,7 +39,7 @@ const handleStartGame = () => {
     <button
       v-if="hasJoined && props.lobby.players.length > 1"
       class="px-2 py-1 bg-blue-200 text-blue-700 rounded-md w-full"
-      @click="handleStartGame()"
+      @click="handleStartGame"
     >
       Start game
     </button>

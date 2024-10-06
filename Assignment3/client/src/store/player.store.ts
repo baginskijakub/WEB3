@@ -1,48 +1,53 @@
 import { defineStore } from 'pinia'
 import { computed } from 'vue'
 import { useGameStore } from './game.store'
-import type { Color } from '~/src/model/deck'
+import { useUserStore } from '~/src/store/user.store'
+import type { Color } from '../types/types'
 
 export const usePlayerStore = defineStore('player', () => {
+  const userStore = useUserStore()
   const gameStore = useGameStore()
   const displayRequestColorModal = ref(false)
   const cardIndexToPlay = ref<number | null>(null)
 
   const playerCards = computed(() => {
-    const currentHand = gameStore.game().currentHand()
+    const currentHand = gameStore.game?.currentHand
 
     if (!currentHand) {
       return
     }
 
-    // Assuming 'You' is the player's name
-    return currentHand.players.find((p) => p.name === 'You')?.hand ?? []
+    return currentHand.players.find((p) => p.name === userStore.user?.name)?.hand ?? []
   })
 
   const isPlayerInTurn = computed(() => {
-    const playerInTurn = gameStore.game().currentHand()?.playerInTurn
-    return playerInTurn === 0
+    const playerInTurn = gameStore.game?.currentHand?.playerInTurn
+
+    if (playerInTurn === undefined) {
+      return false
+    }
+
+    const players = gameStore.game?.players
+
+    return players[playerInTurn] === userStore.user?.name
   })
 
   const drawCard = () => {
-    gameStore.drawCard()
+    if (isPlayerInTurn.value) {
+      gameStore.drawCard()
+    }
   }
 
   const playCard = (cardIndex: number) => {
-    const playerInTurn = gameStore.game().currentHand()?.playerInTurn
+    const currentHand = gameStore.game?.currentHand
 
-    const currentHand = gameStore.game().currentHand()
-
-    // Assuming 'You' is the player's name
-    if (!currentHand || playerInTurn !== 0 || !playerCards.value) {
+    if (!currentHand || !isPlayerInTurn.value || !playerCards.value) {
       return
     }
 
     const card = playerCards.value[cardIndex]
 
     if (card.type === 'WILD' || card.type === 'WILD DRAW') {
-      if(!currentHand.canPlay(cardIndex)) return
-
       displayRequestColorModal.value = true
       cardIndexToPlay.value = cardIndex
       return
@@ -52,12 +57,9 @@ export const usePlayerStore = defineStore('player', () => {
   }
 
   const playWildCard = (color: Color) => {
-    const playerInTurn = gameStore.game().currentHand()?.playerInTurn
+    const currentHand = gameStore.game?.currentHand
 
-    const currentHand = gameStore.game().currentHand()
-
-    // Assuming 'You' is the player's name
-    if (!currentHand || playerInTurn !== 0 || !playerCards.value || cardIndexToPlay.value === null) {
+    if (!currentHand || !isPlayerInTurn.value || !playerCards.value || cardIndexToPlay.value === null) {
       return
     }
 
@@ -78,6 +80,6 @@ export const usePlayerStore = defineStore('player', () => {
     isPlayerInTurn,
     playWildCard,
     displayRequestColorModal,
-    sayUno
+    sayUno,
   }
 })

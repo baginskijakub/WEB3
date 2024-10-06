@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useUserStore } from '~/src/store/user.store'
-import Lobby from '~/src/components/lobby/lobby.vue'
 import { useLobbyStore } from '~/src/store/lobby.store'
+import Lobby from '~/src/components/lobby/lobby.vue'
 import CreateLobbyModal from '~/src/components/lobby/create-lobby-modal.vue'
 
 const userStore = useUserStore()
@@ -16,10 +16,10 @@ if (!userStore.user) {
   <div class="w-full flex flex-col items-center mt-32 gap-4">
     <lobby
       v-for="lobby in lobbyStore.lobbies"
+      :key="lobby.id"
       :lobby="lobby"
       @join-lobby="lobbyStore.joinLobby(lobby.id)"
       @start-game="lobbyStore.startLobby(lobby.id)"
-      :key="lobby.id"
     />
 
     <create-lobby-modal />

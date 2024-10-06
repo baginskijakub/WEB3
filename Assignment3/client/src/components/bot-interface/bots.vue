@@ -2,10 +2,14 @@
 import { useGameStore } from '~/src/store/game.store'
 import BotInterface from './bot-interface.vue'
 import { POSITIONS_ARRAY } from '~/src/components/bot-interface/utils'
+import { useUserStore } from '~/src/store/user.store'
+const userStore = useUserStore()
+const gameStore = useGameStore()
 
-const { game } = useGameStore()
-
-const players = computed(() => game().players.filter((player) => player !== 'You'))
+const players = computed(() => {
+  const userName = userStore.user?.name
+  return gameStore.game?.players.filter((player) => player !== userName)
+})
 </script>
 
 <template>

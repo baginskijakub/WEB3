@@ -1,5 +1,6 @@
 import { WebSocket } from 'ws';
 import { DataAccess } from '../../data-access'
+import {startGame} from "../game/game.sync";
 
 const connectedClients: WebSocket[] = [];
 
@@ -25,6 +26,8 @@ export const syncLobbies = (ws: WebSocket) => {
       if (!databaseResponse.success) {
         return;
       }
+
+      startGame(databaseResponse.data)
 
       const message = JSON.stringify({
         type: 'LOBBY_STARTED',

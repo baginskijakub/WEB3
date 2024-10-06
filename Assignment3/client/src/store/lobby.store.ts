@@ -2,15 +2,14 @@ import { useAsyncData } from '#app'
 import { LobbyService } from '~/src/services/lobby.service'
 import { useUserStore } from '~/src/store/user.store'
 
-// Declare WebSocket variable outside the store to avoid re-initialization
-let ws: WebSocket | null = null
+let ws: WebSocket = null
 
 export const useLobbyStore = defineStore('lobby', () => {
   const userStore = useUserStore()
   const { data } = useAsyncData(async () => await LobbyService.getAllLobbies())
 
   // Make sure WebSocket is initialized only on the client side
-  if (process.client && !ws) {
+  if (import.meta.client && !ws) {
     ws = new WebSocket('ws://localhost:5001/lobby')
 
     ws.onmessage = (event) => {

@@ -10,7 +10,7 @@ const props = defineProps<{
 const store = useGameStore()
 
 const player = computed(() => {
-  const players = store.game().currentHand()?.players
+  const players = store.game?.currentHand?.players
 
   const player = players ? players[props.playerIndex] : null
 
@@ -25,7 +25,7 @@ const player = computed(() => {
 })
 
 const hasSaidUno = computed(() => {
-  return useGameStore().game().currentHand()?.players[props.playerIndex].saidUno
+  return useGameStore().game?.currentHand?.players[props.playerIndex].saidUno
 })
 </script>
 
