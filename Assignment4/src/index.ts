@@ -1,1 +1,1 @@
-export * from './model/uno'
+export * from './functional'
