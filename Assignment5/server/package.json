@@ -1,0 +1,38 @@
+{
+  "name": "typescript-eslint-prettier-starter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc && node dist/index.js",
+    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.7.4",
+    "@typescript-eslint/eslint-plugin": "3.3.0",
+    "@typescript-eslint/parser": "3.3.0",
+    "eslint": "7.3.0",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-plugin-prettier": "3.1.4",
+    "nodemon": "2.0.4",
+    "prettier": "2.0.5",
+    "prisma": "^5.20.0",
+    "ts-node": "^8.10.2",
+    "typescript": "4.9.5"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.20.0",
+    "@types/ws": "^8.5.12",
+    "@wll8/express-ws": "^1.0.5",
+    "cors": "^2.8.5",
+    "express": "^4.21.0"
+  }
+}
