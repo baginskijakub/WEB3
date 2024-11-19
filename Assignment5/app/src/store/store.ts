@@ -1,3 +1,5 @@
+'use client'
+
 import { configureStore } from '@reduxjs/toolkit';
 import {gameReducer, gameMiddleware, userReducer, lobbyMiddleware, lobbyReducer} from './slices';
 import {playerReducer} from "@/store/slices/player";
