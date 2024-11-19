@@ -1,4 +1,4 @@
-import type { User } from '~/src/model/user'
+import type { User } from './user'
 
 export type Lobby = {
   id: number
