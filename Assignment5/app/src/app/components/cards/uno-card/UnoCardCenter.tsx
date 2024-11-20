@@ -23,6 +23,7 @@ const UnoCardCenter: React.FC<UnoCardCenterProps> = ({ card }) => {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                 >
+                    {/* TODO: */}
                     {/* Include SVG path data for SKIP icon */}
                 </svg>
             )}

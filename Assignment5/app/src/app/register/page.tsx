@@ -27,7 +27,6 @@ const Register: React.FC = () => {
             <div className="bg-white p-8 rounded shadow-md w-full max-w-sm">
                 <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">Register</h2>
                 <form onSubmit={handleSubmit}>
-                    {/* Name Field */}
                     <div className="mb-4">
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                             Name
@@ -42,7 +41,6 @@ const Register: React.FC = () => {
                         />
                     </div>
 
-                    {/* Email Field */}
                     <div className="mb-4">
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                             Email
@@ -57,7 +55,6 @@ const Register: React.FC = () => {
                         />
                     </div>
 
-                    {/* Password Field */}
                     <div className="mb-6">
                         <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                             Password
@@ -78,7 +75,6 @@ const Register: React.FC = () => {
                         </p>
                     )}
 
-                    {/* Register Button */}
                     <button
                         type="submit"
                         disabled={loading}
@@ -90,7 +86,6 @@ const Register: React.FC = () => {
                     </button>
                 </form>
 
-                {/* Link to Login */}
                 <a href="/login" className="block text-center mt-4 text-sm text-indigo-600 hover:text-indigo-500">
                     {'Already have an account? Login'}
                 </a>

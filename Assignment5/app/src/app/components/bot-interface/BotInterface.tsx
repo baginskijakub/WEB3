@@ -32,19 +32,16 @@ const BotInterface: React.FC<BotInterfaceProps> = ({ playerIndex, position }) =>
     return (
         <div className={containerClasses[position]}>
             <div className="p-3 flex flex-col justify-center items-center">
-                {/*<UserIcon size={20} />*/}
                 <p className="text-sm">{player.name}</p>
             </div>
             <div className="p-3 flex flex-col justify-center items-center">
-                {/* Fix src */}
-                <img src="/cards-icon.svg" alt="cards icon" className="w-5 h-5" />
+                <img src="./cards-icon.svg" alt="cards icon" className="w-5 h-5" />
                 <p className="text-sm">{player.numberOfCards}</p>
             </div>
             <button
                 className="bg-red-700 m-3 w-9 h-9 flex items-center justify-center rounded hover:opacity-70 transition duration-200 ease-in-out"
                 onClick={() => accuseOfNotSayingUno(playerIndex)}
             >
-                {/*<AlertTriangle size={20} />*/}
             </button>
             {player.saidUno && (
                 <div className="w-12 h-9 bg-yellow-600 m-3 rounded flex justify-center items-center text-sm">

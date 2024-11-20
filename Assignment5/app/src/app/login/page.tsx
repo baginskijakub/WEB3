@@ -11,7 +11,6 @@ export default function Page() {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
-    // **Handle Submit Function**
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
@@ -50,14 +49,12 @@ export default function Page() {
                         />
                     </div>
 
-                    {/* **Error Message** */}
                     {error && (
                         <p className="mb-4 text-sm text-red-600">
                             {error}
                         </p>
                     )}
 
-                    {/* **Submit Button with Loading State** */}
                     <button
                         type="submit"
                         disabled={loading}
@@ -69,7 +66,6 @@ export default function Page() {
                     </button>
                 </form>
 
-                {/* **Link to Register Page** */}
                 <a href="/register" className="block text-center mt-4 text-sm text-indigo-600 hover:text-indigo-500">
                     {'Don\'t have an account? Register'}
                 </a>

@@ -26,7 +26,6 @@ const LobbiesPage: React.FC = () => {
 
     return (
         <div className="min-h-screen flex flex-col items-center gap-4 justify-center bg-gray-100">
-            {/* Render each lobby */}
             {loading ? (
                 <p>Loading lobbies...</p>
             ) : error ? (
@@ -42,7 +41,6 @@ const LobbiesPage: React.FC = () => {
                 ))
             )}
 
-            {/* Create Lobby Modal */}
             <CreateLobbyModal onCreateLobby={createLobby} />
         </div>
     );

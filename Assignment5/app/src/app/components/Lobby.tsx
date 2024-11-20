@@ -17,13 +17,11 @@ const Lobby: React.FC<LobbyProps> = ({ lobby, onJoinLobby, onStartGame }) => {
 
     return (
         <div className="w-80 p-4 flex flex-col gap-2 bg-white rounded-lg shadow-md">
-            {/* Lobby Header */}
             <div className="flex justify-between">
                 <h5 className="font-semibold text-gray-700">{lobby.name}</h5>
                 <p className="text-sm text-gray-500">{lobby.players.length}/4</p>
             </div>
 
-            {/* Players List */}
             <div>
                 {lobby.players.map((player) => (
                     <div key={player.id} className="text-sm p-2 bg-slate-200 rounded-md flex justify-between items-center mb-1 text-gray-700">
@@ -32,7 +30,6 @@ const Lobby: React.FC<LobbyProps> = ({ lobby, onJoinLobby, onStartGame }) => {
                 ))}
             </div>
 
-            {/* Action Buttons */}
             {!hasJoined ? (
                 <button
                     onClick={onJoinLobby}

@@ -36,20 +36,17 @@ const CreateLobbyModal: React.FC<CreateLobbyModalProps> = ({ onCreateLobby }) =>
                 Create Lobby
             </button>
 
-            {/* Modal Overlay */}
             {isModalOpen && (
                 <div
                     className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
                     onClick={closeModal} // Close modal when clicking outside the modal content
                 >
-                    {/* Modal Content */}
                     <div
                         className="bg-white w-80 p-6 flex flex-col gap-4 rounded-lg shadow-lg"
                         onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
                     >
                         <h2 className="text-xl font-semibold text-center text-gray-700">Create Lobby</h2>
 
-                        {/* Lobby Name Input */}
                         <div className="flex flex-col gap-1">
                             <label htmlFor="lobby-name" className="text-sm text-gray-700">
                                 Lobby Name
@@ -65,7 +62,6 @@ const CreateLobbyModal: React.FC<CreateLobbyModalProps> = ({ onCreateLobby }) =>
                             />
                         </div>
 
-                        {/* Action Buttons */}
                         <div className="flex justify-between">
                             <button
                                 onClick={closeModal}
