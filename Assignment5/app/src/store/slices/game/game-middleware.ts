@@ -3,6 +3,8 @@ import { setGameState, setDisplayHandCompleteModal, setDisplayGameOverModal } fr
 
 let ws: WebSocket | null = null;
 
+export const getWebSocket = () => ws;
+
 export const gameMiddleware: Middleware = (store) => (next) => (action: any) => {
     if (action.type === 'game/initWebSocket') {
         const id = action.payload;
