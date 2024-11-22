@@ -18,29 +18,17 @@ const GamePage: React.FC = () => {
     useEffect(() => {
         if (!user) {
             router.push('/login');
-        } else {
-            console.log('GamePage id:', id);
-            let gameId: number | null = null;
-            if (typeof id === 'string') {
-                gameId = parseInt(id);
-            } else if (Array.isArray(id) && typeof id[0] === 'string') {
-                gameId = parseInt(id[0]);
-            }
-
-            if (gameId !== null && !isNaN(gameId)) {
-                console.log('Initializing WebSocket with gameId:', gameId);
-                initWs(gameId);
-            } else {
-                console.error('Invalid game ID:', id);
-            }
         }
-    }, [user, initWs, id, router]);
+    }, [user,  router]);
+
+    useEffect(() => {
+        initWs(parseInt(id as string))
+    }, []);
 
     if (!user) {
         return null;
     }
 
-    console.log(game)
 
     return (
         <div>

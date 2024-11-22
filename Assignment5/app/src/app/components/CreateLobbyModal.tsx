@@ -39,11 +39,11 @@ const CreateLobbyModal: React.FC<CreateLobbyModalProps> = ({ onCreateLobby }) =>
             {isModalOpen && (
                 <div
                     className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-                    onClick={closeModal} // Close modal when clicking outside the modal content
+                    onClick={closeModal}
                 >
                     <div
                         className="bg-white w-80 p-6 flex flex-col gap-4 rounded-lg shadow-lg"
-                        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
+                        onClick={(e) => e.stopPropagation()}
                     >
                         <h2 className="text-xl font-semibold text-center text-gray-700">Create Lobby</h2>
 
