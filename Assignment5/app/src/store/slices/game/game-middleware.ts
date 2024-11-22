@@ -1,5 +1,5 @@
 import { Middleware } from '@reduxjs/toolkit';
-import {Subject, fromEvent, race, timer, Observable} from 'rxjs';
+import { Subject, fromEvent, race, timer } from 'rxjs';
 import { map, filter, take, takeUntil } from 'rxjs/operators';
 import { setGameState, setDisplayHandCompleteModal, setDisplayGameOverModal } from './game-slice';
 
@@ -18,7 +18,6 @@ const setupWebSocketConnection = (id: number): Promise<WebSocket> => {
 
         isConnecting = true;
 
-        // Clean up existing connection if any
         if (ws) {
             ws.close();
             ws = null;
@@ -28,18 +27,18 @@ const setupWebSocketConnection = (id: number): Promise<WebSocket> => {
 
         const newWs = new WebSocket(`ws://localhost:5001/game/${id}`);
 
-        // Set up connection timeout
         const connectionTimeout = timer(5000).pipe(take(1));
 
-        // Wait for either successful connection or timeout
+        const openObs = fromEvent<Event>(newWs, 'open');
+        const errorObs = fromEvent<Event>(newWs, 'error');
+
         race(
-            fromEvent(newWs, 'open'),
+            openObs,
             connectionTimeout,
-            fromEvent(newWs, 'error')
+            errorObs
         ).pipe(take(1)).subscribe({
             next: (event) => {
                 if (event instanceof Event && event.type === 'open') {
-                    console.log('WebSocket connection successfully established');
                     isConnecting = false;
                     ws = newWs;
                     resolve(newWs);
@@ -66,9 +65,9 @@ export const gameMiddleware: Middleware = (store) => (next) => (action: any) => 
 
         setupWebSocketConnection(id)
             .then((socket) => {
-                fromEvent(socket, 'message')
+                fromEvent<MessageEvent>(socket, 'message')
                     .pipe(
-                        takeUntil(closeSubject>),
+                        takeUntil(closeSubject),
                         map((event: MessageEvent) => {
                             try {
                                 return JSON.parse(event.data);
@@ -96,14 +95,14 @@ export const gameMiddleware: Middleware = (store) => (next) => (action: any) => 
                         error: (error) => console.error('Message processing error:', error)
                     });
 
-                fromEvent(socket, 'close')
+                fromEvent<CloseEvent>(socket, 'close')
                     .pipe(takeUntil(closeSubject))
                     .subscribe(() => {
                         console.log('WebSocket connection closed');
                         ws = null;
                     });
 
-                fromEvent(socket, 'error')
+                fromEvent<Event>(socket, 'error')
                     .pipe(takeUntil(closeSubject))
                     .subscribe((error) => {
                         console.error('WebSocket error:', error);
