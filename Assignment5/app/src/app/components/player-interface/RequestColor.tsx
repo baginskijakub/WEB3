@@ -16,7 +16,7 @@ const RequestColor: React.FC = () => {
         <>
             <span className="absolute w-full h-full bg-slate-100 opacity-70 z-50" />
             <div
-                className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-20 bg-slate-100 flex justify-center items-center gap-2 z-50 rounded-md drop-shadow-2xl"
+                className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-20 bg-slate-100 flex justify-center items-center gap-2 z-50 rounded-md drop-shadow-2xl text-gray-700"
             >
                 Requested color:
                 <div className="flex gap-2">

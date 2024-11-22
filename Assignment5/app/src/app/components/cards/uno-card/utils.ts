@@ -9,6 +9,6 @@ export const COLOR_MAP: Record<Color, string> = {
 
 export const mapCardToStyle = (card: Card) => {
     return {
-        color: COLOR_MAP[card.color as Color] || 'bg-gray-500',
+        color: COLOR_MAP[card.color as Color] || 'bg-black',
     };
 };
