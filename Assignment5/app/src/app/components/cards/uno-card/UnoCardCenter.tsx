@@ -68,26 +68,26 @@ const UnoCardCenter: React.FC<UnoCardCenterProps> = ({ card }) => {
                     xmlns="http://www.w3.org/2000/svg"
                 >
                     <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
                         d="M20 70 A50 50 0 0 1 70 20 L70 70 Z"
                         fill="red"
                     />
                     <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
                         d="M70 20 A50 50 0 0 1 120 70 L70 70 Z"
                         fill="blue"
                     />
                     <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
                         d="M120 70 A50 50 0 0 1 70 120 L70 70 Z"
                         fill="yellow"
                     />
                     <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
                         d="M70 120 A50 50 0 0 1 20 70 L70 70 Z"
                         fill="green"
                     />
@@ -96,23 +96,35 @@ const UnoCardCenter: React.FC<UnoCardCenterProps> = ({ card }) => {
             )}
             {card.type === 'WILD' && (
                 <svg
-                    className="w-10 h-12"
-                    style={{transform: 'scale(5.5) translateX(-1rem)'}}
-                    viewBox="0 0 204 232"
+                    className="w-26 h-28 drop-shadow-card-icon"
+                    viewBox="0 0 140 140"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-                        <rect x="0" y="0" width="100" height="100" fill="black"/>
-
-                        <path d="M10,50 A40,40 0 0,1 50,10 L50,50 Z" fill="red"/>
-                        <path d="M50,10 A40,40 0 0,1 90,50 L50,50 Z" fill="blue"/>
-                        <path d="M90,50 A40,40 0 0,1 50,90 L50,50 Z" fill="yellow"/>
-                        <path d="M50,90 A40,40 0 0,1 10,50 L50,50 Z" fill="green"/>
-
-                        <circle cx="50" cy="50" r="20" fill="black"/>
-                    </svg>
-
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M20 70 A50 50 0 0 1 70 20 L70 70 Z"
+                        fill="red"
+                    />
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M70 20 A50 50 0 0 1 120 70 L70 70 Z"
+                        fill="blue"
+                    />
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M120 70 A50 50 0 0 1 70 120 L70 70 Z"
+                        fill="yellow"
+                    />
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M70 120 A50 50 0 0 1 20 70 L70 70 Z"
+                        fill="green"
+                    />
                 </svg>
             )}
         </div>
