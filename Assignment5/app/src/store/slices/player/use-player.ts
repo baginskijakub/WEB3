@@ -41,14 +41,19 @@ export const usePlayer = () => {
         }
     }, [isPlayerInTurn, gameDrawCard]);
 
-    const playCard = useCallback((cardIndex: number) => {
-        const currentHand = game?.currentHand;
+    const playCard = useCallback(
+        (cardIndex: number) => {
+            console.log(`playCard called with index: ${cardIndex}`);
 
-        if (!currentHand || !isPlayerInTurn || !playerCards) {
-            return;
-        }
+            const currentHand = game?.currentHand;
 
-        const card = playerCards[cardIndex];
+            if (!currentHand || !isPlayerInTurn || !playerCards) {
+                console.warn('Cannot play card: Invalid game state or not player turn');
+                return;
+            }
+
+            const card = playerCards[cardIndex];
+            console.log('Card to play:', card);
 
         if (card.type === 'WILD' || card.type === 'WILD DRAW') {
             dispatch(setDisplayRequestColorModal(true));

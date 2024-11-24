@@ -74,6 +74,8 @@ export class GameHandler {
             payload: this.game.toState()
         })
 
+        console.log('Broadcasting game change:', this.connectedClients.length)
+
         this.connectedClients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) {
                 client.send(message)

@@ -2,17 +2,16 @@
 
 import { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch } from '../../store';
+import { RootState, AppDispatch } from '@/store';
 import {
     fetchLobbies,
     joinLobby,
     createLobby
-} from './lobby-slice';
-import {useRouter} from "next/router";
+} from '@/store';
 
 export const useLobby = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const navigate = useRouter()
+
     const user = useSelector((state: RootState) => state.user.user);
     const lobbies = useSelector((state: RootState) => state.lobby.lobbies);
     const loading = useSelector((state: RootState) => state.lobby.loading);
@@ -55,7 +54,7 @@ export const useLobby = () => {
     );
 
     const handleStartLobby = useCallback(
-        (lobbyId: string) => {
+        (lobbyId: number) => {
             dispatch({ type: 'lobby/startLobby', payload: lobbyId });
         },
         [dispatch]

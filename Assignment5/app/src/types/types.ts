@@ -21,7 +21,7 @@ interface THand {
 }
 
 interface TDeck {
-  cards: Card
+  cards: Card[]
 }
 
 export interface Card {
